@@ -53,7 +53,7 @@ typedef N((*n_t));
 #define ιLime(n)   ο[ο[ι+1]+n]
 #define ΔNavy(n)   ο[ο[α+0]+n]
 
-#define P printf("%9s %lld %lld %lld %9s %lld %lld\n", __func__, α, β, ρ, (char*)ΔBlue(1), ΔBlue(2), ΔBlue(3))
+#define P printf("%9s (%lld,%lld) %lld %lld %lld %9s %lld %lld\n", __func__, (τ/(1<<8)), (τ%(1<<8))/11, α, β, ρ, (char*)ΔBlue(1), ΔBlue(2), ΔBlue(3))
 #include<stdio.h>
 
 N(Red     ) { n_t n = ΔRed(   0); β = ΔRed(   -1); n(EE); }
@@ -103,8 +103,10 @@ N(dodo) { P; }
 N(halted) { Yellow(EE); }
 
 #define PS 5000
-static f_t ram[PS + 1 + PS];
+static f_t ram[PS + 1 + PS] = {0};
+void init_ti();
 int main() {
+  init_ti();
   if (sizeof(f_t) != sizeof(void*))
     return printf("text member fingers are not sizeof(void*)!\n");
   f_t *ο = ram + PS;
@@ -128,7 +130,8 @@ N(Green_book);
 N(Red_book);
 N(Purple_book);
 N(Navy_book);
-#define CM(nar) (σ + (1 << 8) < ρ ? (nar) : Navy)
+#define CM(nar) nar
+//(σ + (1 << 8) < ρ ? (nar) : Navy)
 N(Yellow_31);
 N(Purple_31);
 N(Navy_3      ) { (ΔLime(1) == ο[τ + 1] ? Green       : Navy_book )(EE); }
@@ -170,7 +173,7 @@ N(Green_2     ) {P;
                   if (pos < length && s[pos] == t[0]) {
                     οRed(Red, t);
                     οBlue(Blue, s, length, pos + 1);
-                    char buff[100]={};
+                    static char buff[100]={0};
                     snprintf(buff, pos + 2, "%s", s);
                     printf("[%s] %s\n", buff, t);
                     Green_book(EE);
@@ -178,21 +181,27 @@ N(Green_2     ) {P;
                     printf(" x %s\n", t);
                     Yellow(EE);
                   } }
+N(Yellow_ti);
 N(Yellow_book) {
   static n_t narg[5] = {
     [2] = Green_2,
     [3] = Yellow_3,
     [4] = Green_4,
-  }; τ += 11, narg[ο[τ]](EE);
+  }; τ += 11,
+             Yellow_ti(EE),
+             narg[ο[τ]](EE);
 }
+N(Blue_ti);
 N(Blue_book) {
   static n_t narg[5] = {
     [1] = Blue_1,
     [3] = Yellow,
     [0] = Yellow,
-  }; τ += 1 << 8, narg[ο[τ]](EE);
+  }; τ += 1 << 8,
+             Blue_ti(EE),
+             narg[ο[τ]](EE);
 }
-
+N(Green_ti);
 N(Green_book) {
   static n_t narg[6] = {
     [2] = Green_2,
@@ -200,26 +209,37 @@ N(Green_book) {
     [3] = Green_3,
     [5] = Green_5,
     [0] = Yellow,
-  }; τ += 11, narg[ο[τ]](EE);
+  }; τ += 11,
+             Green_ti(EE),
+             narg[ο[τ]](EE);
 }
+N(Red_ti);
 N(Red_book) {
   static n_t narg[5] = {
     [1] = Red_1,
     [3] = Yellow,
     [0] = Yellow,
-  }; τ += 1 << 8, narg[ο[τ]](EE);
+  }; τ += 1 << 8, 
+             Red_ti(EE),
+             narg[ο[τ]](EE);
 }
+N(Purple_ti);
 N(Purple_book) {
   static n_t narg[5] = {
     [3] = Purple_3,
     [2] = Yellow,
     [4] = Yellow,
-  }; τ += 11, narg[ο[τ]](EE);
+  }; τ += 11, 
+             Purple_ti(EE),
+             narg[ο[τ]](EE);
 }
+N(Navy_ti);
 N(Navy_book) {
   static n_t narg[5] = {
     [0] = Navy,
     [3] = Navy_3,
     [1] = Navy_book,
-  }; τ -= 1 << 8, narg[ο[τ]](EE);
+  }; τ -= 1 << 8,
+             Navy_ti(EE),
+             narg[ο[τ]](EE);
 }
